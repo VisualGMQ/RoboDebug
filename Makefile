@@ -1,8 +1,8 @@
-all:robodebug test
-robodebug:robodebug.cpp
-	g++ robodebug.cpp -o robodebug -std=c++11
+all:debug test
+debug:debug.cpp debugger.cpp
+	g++ debug.cpp debugger.cpp -o loopdebug -std=c++11
 test:test.cpp
 	g++ test.cpp -o test -std=c++11
 .PHONY:
 clean:
-	-rm robodebug test
+	-rm loopdebug test
