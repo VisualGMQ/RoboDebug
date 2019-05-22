@@ -6,7 +6,7 @@
 #include <signal.h>
 using namespace std;
 
-int fifofile = -1;
+int fifofile = open("robofifo", O_RDONLY);
 
 void handle(int signum){
     if(signum == SIGINT){
@@ -17,9 +17,8 @@ void handle(int signum){
     }
 }
 
-int main(){
+int main(int agrc, char** argv){
     signal(SIGINT, handle); 
-    fifofile = open("/usr/local/robofifo", O_RDONLY|O_NONBLOCK);
     if(fifofile <= 0){
         cout<<"please create the pip first"<<endl;
         return -1;
