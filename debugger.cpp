@@ -9,20 +9,12 @@ debugger::debugger(){
     isChanged = false;
 }
 
-void debugger::loopRead(){
-    while(true){
-        readData();
-    }
+const map<string, string>& debugger::getVariables(){
+    return variables;
 }
 
-void debugger::showDebugInfo(){
-    if(isChanged){
-        cout<<"\033[2J";
-        for(auto it = variables.begin(); it != variables.end(); it++){
-            cout<<it->first<<":"<<it->second<<endl;
-        }
-        isChanged = false;
-    }
+void debugger::readAndParse(){
+    readData();
 }
 
 void debugger::handle(int signum){
@@ -37,7 +29,7 @@ void debugger::handle(int signum){
 void debugger::openFifo(){
     int ref = mkfifo("/tmp/robofifo", 0777);
     if(ref == -1){
-        cout<<"fifo is not created"<<endl;
+        cout<<"fifo is not created or is exits"<<endl;
     }
     if(fifofile <= 0){
         cout<<"please create the pip first"<<endl;
@@ -71,7 +63,6 @@ void debugger::readData(){
         int len = read(fifofile, data, sizeof(data));
         if(len > 0){
             parse(data);
-            showDebugInfo();
         }
     }
 }

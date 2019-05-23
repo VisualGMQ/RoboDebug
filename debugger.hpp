@@ -13,8 +13,9 @@ using namespace std;
 class debugger{
 public:
     debugger();
-    void loopRead();
-    void showDebugInfo();
+    const map<string, string>& getVariables();
+    void readAndParse(); 
+    bool isChanged;
     ~debugger();
 private:
     map<string, string> variables;
@@ -22,7 +23,6 @@ private:
     static void handle(int signum);
     void openFifo();
     void readData();
-    bool isChanged;
     void parse(string msg);
 };
 #endif
