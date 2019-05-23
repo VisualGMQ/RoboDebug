@@ -10,7 +10,7 @@ debugger::debugger(){
 }
 
 const map<string, string>& debugger::getVariables(){
-    return variables;
+    return this->variables;
 }
 
 void debugger::readAndParse(){
@@ -49,8 +49,12 @@ void debugger::parse(string msg){
         getline(ss2, name, ':');
         getline(ss2, value, ':');
         if(name != "\0" && name != "\n"){
-            if(variables.find(name) == variables.end() || variables[name] != value){
-                variables[name] = value;
+            if(this->variables.find(name) == this->variables.end() || this->variables[name] != value){
+                this->variables[name] = value;
+                /*
+                cout<<"name"<<name<<endl;
+                cout<<"value"<<value<<endl;
+                */
                 isChanged = true;
             }
         }
@@ -58,13 +62,11 @@ void debugger::parse(string msg){
 }
 
 void debugger::readData(){
-    while(true){
         char data[1024] = {'\0'};
         int len = read(fifofile, data, sizeof(data));
         if(len > 0){
             parse(data);
         }
-    }
 }
 
 debugger::~debugger(){
